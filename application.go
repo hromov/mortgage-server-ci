@@ -29,6 +29,10 @@ var BANK_DATA = []Bank{
 	{ID: "4", Name: "Bank of Italy", Interest: 0.2, MaxLoan: 300000, MinDown: 0.5, Term: 32},
 }
 
+func mainHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "CI/CD Works?")
+}
+
 func banksHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/banks" {
 		http.NotFound(w, r)
@@ -109,6 +113,7 @@ func newBankHandler(w http.ResponseWriter, r *http.Request) {
 
 func newREST() *mux.Router {
 	r := mux.NewRouter()
+	r.HandleFunc("/", mainHandler).Methods("GET")
 	r.HandleFunc("/banks", banksHandler).Methods("GET")
 	r.HandleFunc("/banks", newBankHandler).Methods("POST")
 	r.HandleFunc("/banks/{id}", bankChangeHandler).Methods("PUT", "DELETE")
